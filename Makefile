@@ -20,35 +20,7 @@ help:
 build: NAME TAG builddocker
 
 # run a plain container
-run: build rundocker
-
-# run a  container that requires mysql temporarily
-temp: MYSQL_PASS rm build mysqltemp runmysqltemp
-
-# run a  container that requires mysql in production with persistent data
-# HINT: use the grabmysqldatadir recipe to grab the data directory automatically from the above runmysqltemp
-prod: APACHE_DATADIR MYSQL_DATADIR MYSQL_PASS rm build mysqlcid runprod
-
-jessie:
-	sudo bash local-jessie.sh
-
-## useful hints
-## specifiy ports
-#-p 44180:80 \
-#-p 27005:27005/udp \
-## link another container
-#--link some-mysql:mysql \
-## assign environmant variables
-#--env STEAM_USERNAME=`cat steam_username` \
-#--env STEAM_PASSWORD=`cat steam_password` \
-
-# change uid in the container for easy dev work
-# first you need to determin your user:
-# $(eval UID := $(shell id -u))
-# then you need to insert this as a env var:
-# -e "DOCKER_UID=$(UID)" \
-# then look at chguid.sh for an example of 
-# what needs to be run in the live container upon startup
+run: GIT_DATADIR SKETCHBOOK build rundocker
 
 rundocker:
 	$(eval TMP := $(shell mktemp -d --suffix=DOCKERTMP))
@@ -63,6 +35,7 @@ rundocker:
 	-v /var/run/docker.sock:/run/docker.sock \
 	-v $(shell which docker):/bin/docker \
 	-v $(shell cat GIT_DATADIR):/home/git \
+	-v $(shell catSKETCHBOOK):/root/sketchbook \
 	-t $(TAG)
 
 builddocker:
@@ -97,15 +70,14 @@ TAG:
 
 rmall: rm 
 
-grab: grabapachedir
-
-grabapachedir:
-	-mkdir -p datadir
-	docker cp `cat cid`:/var/www/html  - |sudo tar -C datadir/ -pxvf -
-	echo `pwd`/datadir/html > APACHE_DATADIR
-
 GIT_DATADIR:
 	@while [ -z "$$GIT_DATADIR" ]; do \
-		read -r -p "Enter the destination of the Apache data directory you wish to associate with this container [GIT_DATADIR]: " GIT_DATADIR; echo "$$GIT_DATADIR">>GIT_DATADIR; cat GIT_DATADIR; \
+		read -r -p "Enter the destination of th eGit data directory you wish to associate with this container [GIT_DATADIR]: " GIT_DATADIR; echo "$$GIT_DATADIR">>GIT_DATADIR; cat GIT_DATADIR; \
+	done ;
+
+
+SKETCHBOOK:
+	@while [ -z "$$SKETCHBOOK" ]; do \
+		read -r -p "Enter the destination of th esketchbook directory you wish to associate with this container [SKETCHBOOK]: " SKETCHBOOK; echo "$$SKETCHBOOK">>SKETCHBOOK; cat SKETCHBOOK; \
 	done ;
 

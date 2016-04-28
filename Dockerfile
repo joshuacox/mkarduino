@@ -1,6 +1,7 @@
 FROM debian:jessie
 MAINTAINER Josh Cox <josh 'at' webhosting.coop>
 
+ENV MKARDUINO 000
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG en_US.UTF-8
 
