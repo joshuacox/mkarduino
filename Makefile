@@ -35,7 +35,7 @@ rundocker:
 	-v /var/run/docker.sock:/run/docker.sock \
 	-v $(shell which docker):/bin/docker \
 	-v $(shell cat GIT_DATADIR):/home/git \
-	-v $(shell catSKETCHBOOK):/root/sketchbook \
+	-v $(shell cat SKETCHBOOK):/root/sketchbook \
 	-t $(TAG)
 
 builddocker:
@@ -75,9 +75,7 @@ GIT_DATADIR:
 		read -r -p "Enter the destination of th eGit data directory you wish to associate with this container [GIT_DATADIR]: " GIT_DATADIR; echo "$$GIT_DATADIR">>GIT_DATADIR; cat GIT_DATADIR; \
 	done ;
 
-
 SKETCHBOOK:
 	@while [ -z "$$SKETCHBOOK" ]; do \
 		read -r -p "Enter the destination of th esketchbook directory you wish to associate with this container [SKETCHBOOK]: " SKETCHBOOK; echo "$$SKETCHBOOK">>SKETCHBOOK; cat SKETCHBOOK; \
 	done ;
-
