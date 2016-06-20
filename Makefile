@@ -20,19 +20,25 @@ help:
 build: NAME TAG builddocker
 
 # run a plain container
-run: GIT_DATADIR SKETCHBOOK build rundocker
+run: GIT_DATADIR SKETCHBOOK local-preferences build rm rundocker
 
 rundocker:
 	$(eval TMP := $(shell mktemp -d --suffix=DOCKERTMP))
 	$(eval NAME := $(shell cat NAME))
 	$(eval TAG := $(shell cat TAG))
+	$(eval PWD := $(shell pwd ))
 	chmod 777 $(TMP)
 	@docker run --name=$(NAME) \
 	--cidfile="cid" \
 	-v $(TMP):/tmp \
 	-d \
 	-P \
+	-v /tmp/.X11-unix:/tmp/.X11-unix \
+	-e DISPLAY=':0' \
+	--device /dev/dri \
+	--privileged \
 	-v /var/run/docker.sock:/run/docker.sock \
+	-v $(PWD)/local-preferences:/root/.arduino \
 	-v $(shell which docker):/bin/docker \
 	-v $(shell cat GIT_DATADIR):/home/git \
 	-v $(shell cat SKETCHBOOK):/root/sketchbook \
@@ -79,3 +85,6 @@ SKETCHBOOK:
 	@while [ -z "$$SKETCHBOOK" ]; do \
 		read -r -p "Enter the destination of th esketchbook directory you wish to associate with this container [SKETCHBOOK]: " SKETCHBOOK; echo "$$SKETCHBOOK">>SKETCHBOOK; cat SKETCHBOOK; \
 	done ;
+
+local-preferences:
+	mkdir local-preferences
