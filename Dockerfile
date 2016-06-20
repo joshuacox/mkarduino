@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:wheezy
 MAINTAINER Josh Cox <josh 'at' webhosting.coop>
 
 ENV MKARDUINO 000
