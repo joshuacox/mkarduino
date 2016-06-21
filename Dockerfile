@@ -26,7 +26,7 @@ echo 'arduino ALL=(ALL) NOPASSWD: ALL'>>/etc/sudoers
 
 #RUN pacman -S --noconfirm harfbuzz
 
-RUN pacman -Syu --noconfirm --needed base-devel wget lib32-libxt libxt jre7-openjdk mesa-libgl
+RUN pacman -Syu --noconfirm --needed base-devel wget lib32-libxtst libxtst lib32-libxt libxt jre7-openjdk mesa-libgl
 
 RUN wget https://aur.archlinux.org/cgit/aur.git/snapshot/arduino.tar.gz; tar zxvf arduino.tar.gz;useradd arduino; mv arduino /home/;chown arduino. /home/arduino
 RUN mkdir /tmp/yaourt
