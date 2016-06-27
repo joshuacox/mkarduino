@@ -14,12 +14,24 @@ mkdir /usr/portage
 
 RUN emerge-webrsync
 RUN for d in /etc/portage/package.*; do touch $d/zzz_autounmask; done
-RUN emerge -avq sun-jre-bin crossdev layman
+RUN emerge -avq sun-jre-bin crossdev layman git
 RUN echo 'source /var/lib/layman/make.conf' >> /etc/portage/make.conf
 RUN USE="-openmp" crossdev -t avr -s4 -S --without-headers
 RUN emerge --autounmask-write arduino; etc-update --automode -5; emerge arduino
 RUN rm -Rf /usr/portage
 
-WORKDIR /home/git
+USER root
+RUN cd /usr/local; \
+wget -q https://www.arduino.cc/download.php?f=/arduino-nightly-linux64.tar.xz -O arduino-nightly.tar.xz ;  \
+tar xvf arduino-nightly.tar.xz ; \
+rm arduino-nightly.tar.xz ; \
+cd /usr/local/bin ; \
+ln -s /usr/local/arduino-nightly/arduino
 
-CMD ["/usr/bin/arduino"]
+RUN groupadd -r --gid 1001 arduino; useradd --uid 1001 -r -g arduino arduino; \
+mkdir /home/arduino; chown arduino. /home/arduino; \
+echo 'arduino ALL=(ALL) NOPASSWD: ALL'>>/etc/sudoers
+USER arduino
+RUN git clone https://github.com/sudar/Arduino-Makefile.git
+
+CMD ["/usr/local/bin/arduino"]
