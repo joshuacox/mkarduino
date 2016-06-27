@@ -25,6 +25,9 @@ rm arduino-nightly.tar.xz ; \
 cd /usr/local/bin ; \
 ln -s /usr/local/arduino-nightly/arduino
 
+RUN groupadd -r --gid 1001 arduino; useradd --uid 1001 -r -g arduino arduino; \
+mkdir /home/arduino; chown arduino. /home/arduino; \
+echo 'arduino ALL=(ALL) NOPASSWD: ALL'>>/etc/sudoers
 USER arduino
 WORKDIR /home/arduino
 RUN git clone https://github.com/sudar/Arduino-Makefile.git
