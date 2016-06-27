@@ -48,8 +48,7 @@ tar xvf arduino-nightly.tar.xz ; \
 rm arduino-nightly.tar.xz ; \
 cd /usr/local/bin ; \
 ln -s /usr/local/arduino-nightly/arduino
-
-USER arduino
+RUN git clone https://github.com/sudar/Arduino-Makefile.git
 
 CMD ["/usr/local/bin/arduino"]
 
