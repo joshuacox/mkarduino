@@ -9,7 +9,7 @@ RUN apt-get -qq update; \
 apt-get -qqy dist-upgrade ; \
 apt-get -qqy --no-install-recommends install locales \
 arduino arduino-core arduino-mk gcc-avr avr-libc avrdude build-essential \
-sudo procps ca-certificates wget pwgen supervisor; \
+git sudo procps ca-certificates wget pwgen supervisor; \
 echo 'en_US.ISO-8859-15 ISO-8859-15'>>/etc/locale.gen ; \
 echo 'en_US ISO-8859-1'>>/etc/locale.gen ; \
 echo 'en_US.UTF-8 UTF-8'>>/etc/locale.gen ; \
@@ -18,6 +18,17 @@ apt-get -y autoremove ; \
 apt-get clean ; \
 rm -Rf /var/lib/apt/lists/*
 
-WORKDIR /home/git
+RUN cd /usr/local; \
+wget -q https://www.arduino.cc/download.php?f=/arduino-nightly-linux64.tar.xz -O arduino-nightly.tar.xz ;  \
+tar xvf arduino-nightly.tar.xz ; \
+rm arduino-nightly.tar.xz ; \
+cd /usr/local/bin ; \
+ln -s /usr/local/arduino-nightly/arduino
+
+USER arduino
+WORKDIR /home/arduino
+RUN git clone https://github.com/sudar/Arduino-Makefile.git
+
+USER arduino
 
 CMD ["/usr/bin/arduino"]
