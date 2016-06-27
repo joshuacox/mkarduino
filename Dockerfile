@@ -41,8 +41,17 @@ cd arduino; \
 makepkg --noconfirm -sri; \
 cd /home/arduino; \
 rm -Rf arduino
+USER root
+RUN cd /usr/local; \
+wget -q https://www.arduino.cc/download.php?f=/arduino-nightly-linux64.tar.xz -O arduino-nightly.tar.xz ;  \
+tar xvf arduino-nightly.tar.xz ; \
+rm arduino-nightly.tar.xz ; \
+cd /usr/local/bin ; \
+ln -s /usr/local/arduino-nightly/arduino
 
-CMD ["/usr/bin/arduino"]
+USER arduino
+
+CMD ["/usr/local/bin/arduino"]
 
 
 #WORKDIR /tmp/yaourt
