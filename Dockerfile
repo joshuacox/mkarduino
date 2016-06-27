@@ -41,6 +41,7 @@ cd arduino; \
 makepkg --noconfirm -sri; \
 cd /home/arduino; \
 rm -Rf arduino
+RUN git clone https://github.com/sudar/Arduino-Makefile.git
 USER root
 RUN cd /usr/local; \
 wget -q https://www.arduino.cc/download.php?f=/arduino-nightly-linux64.tar.xz -O arduino-nightly.tar.xz ;  \
@@ -48,9 +49,9 @@ tar xvf arduino-nightly.tar.xz ; \
 rm arduino-nightly.tar.xz ; \
 cd /usr/local/bin ; \
 ln -s /usr/local/arduino-nightly/arduino
-RUN git clone https://github.com/sudar/Arduino-Makefile.git
 
 USER arduino
+
 
 CMD ["/usr/local/bin/arduino"]
 
