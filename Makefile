@@ -1,10 +1,5 @@
 .PHONY: all help build run builddocker rundocker kill rm-image rm clean enter logs
 
-user = $(shell whoami)
-ifeq ($(user),root)
-$(error  "do not run as root! run 'gpasswd -a USER docker' on the user of your choice")
-endif
-
 all: help
 
 help:
@@ -38,11 +33,14 @@ rundocker:
 	--device /dev/dri \
 	--privileged \
 	-v /var/run/docker.sock:/run/docker.sock \
-	-v $(PWD)/local-preferences:/root/.arduino \
+	-v $(PWD)/local-preferences:/home/arduino/.arduino \
 	-v $(shell which docker):/bin/docker \
 	-v $(shell cat GIT_DATADIR):/home/git \
-	-v $(shell cat SKETCHBOOK):/root/sketchbook \
+	-v $(shell cat SKETCHBOOK):/home/arduino/Arduino \
 	-t $(TAG)
+
+sparevolumes:
+
 
 builddocker:
 	/usr/bin/time -v docker build -t `cat TAG` .
