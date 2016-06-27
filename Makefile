@@ -38,11 +38,14 @@ rundocker:
 	--device /dev/dri \
 	--privileged \
 	-v /var/run/docker.sock:/run/docker.sock \
-	-v $(PWD)/local-preferences:/root/.arduino \
 	-v $(shell which docker):/bin/docker \
 	-v $(shell cat GIT_DATADIR):/home/git \
-	-v $(shell cat SKETCHBOOK):/root/sketchbook \
+	-v $(shell cat SKETCHBOOK):/home/arduino/Arduino \
 	-t $(TAG)
+
+sparevolumes:
+		# -v $(PWD)/local-preferences:/home/arduino/.arduino \
+
 
 builddocker:
 	/usr/bin/time -v docker build -t `cat TAG` .

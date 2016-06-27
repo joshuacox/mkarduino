@@ -4,8 +4,7 @@ MAINTAINER Josh Cox <josh 'at' webhosting.coop>
 ENV MKARDUINO 000
 
 COPY pacman.conf /etc/pacman.conf
-RUN groupadd -r yaourt; useradd -r -g yaourt yaourt; groupadd -r arduino; useradd -r -g arduino arduino; \
-echo 'arduino ALL=(ALL) NOPASSWD: ALL'>>/etc/sudoers
+RUN groupadd -r yaourt; useradd -r -g yaourt yaourt
 #RUN dirmngr </dev/null
 #RUN pacman-key --init
 #RUN pacman-key --populate archlinux
@@ -26,17 +25,22 @@ echo 'arduino ALL=(ALL) NOPASSWD: ALL'>>/etc/sudoers
 
 #RUN pacman -S --noconfirm harfbuzz
 
-RUN pacman -Syu --noconfirm --needed base-devel wget lib32-libxtst libxtst lib32-libxt libxt jre7-openjdk mesa-libgl
-
-RUN wget https://aur.archlinux.org/cgit/aur.git/snapshot/arduino.tar.gz; tar zxvf arduino.tar.gz;useradd arduino; mv arduino /home/;chown arduino. /home/arduino
-RUN mkdir /tmp/yaourt
-RUN chown -R yaourt:yaourt /tmp/yaourt
-RUN pacman --noconfirm -Syyu
+RUN pacman -Syu --noconfirm --needed base-devel wget lib32-libxtst libxtst lib32-libxt libxt jre7-openjdk mesa-libgl ; \
+mkdir /tmp/yaourt ; \
+chown -R yaourt:yaourt /tmp/yaourt ; \
+pacman --noconfirm -Syyu
+RUN groupadd -r --gid 1001 arduino; useradd --uid 1001 -r -g arduino arduino; \
+mkdir /home/arduino; chown arduino. /home/arduino; \
+echo 'arduino ALL=(ALL) NOPASSWD: ALL'>>/etc/sudoers
 USER arduino
 WORKDIR /home/arduino
-RUN makepkg --noconfirm -sri
-
-WORKDIR /home/git
+RUN wget https://aur.archlinux.org/cgit/aur.git/snapshot/arduino.tar.gz; \
+tar zxvf arduino.tar.gz; \
+rm arduino.tar.gz; \
+cd arduino; \
+makepkg --noconfirm -sri; \
+cd /home/arduino; \
+rm -Rf arduino
 
 CMD ["/usr/bin/arduino"]
 
