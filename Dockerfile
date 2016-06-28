@@ -25,7 +25,7 @@ RUN groupadd -r yaourt; useradd -r -g yaourt yaourt
 
 #RUN pacman -S --noconfirm harfbuzz
 
-RUN pacman -Syu --noconfirm --needed git base-devel wget lib32-libxtst libxtst lib32-libxt libxt jre7-openjdk mesa-libgl ; \
+RUN pacman -Syu --noconfirm --needed git ncurses base-devel wget lib32-libxtst libxtst lib32-libxt libxt jre7-openjdk mesa-libgl ; \
 mkdir /tmp/yaourt ; \
 chown -R yaourt:yaourt /tmp/yaourt ; \
 pacman --noconfirm -Syyu
