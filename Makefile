@@ -15,7 +15,7 @@ help:
 build: NAME TAG builddocker
 
 # run a plain container
-run: GIT_DATADIR SKETCHBOOK local-preferences build rm rundocker
+run: GIT_DATADIR SKETCHBOOK local-preferences build .Xauthority rm rundocker
 
 rundocker:
 	$(eval TMP := $(shell mktemp -d --suffix=DOCKERTMP))
@@ -28,9 +28,11 @@ rundocker:
 	-v $(TMP):/tmp \
 	-d \
 	-P \
-	-v /tmp/.X11-unix:/tmp/.X11-unix \
-	-e DISPLAY=':0' \
 	--device /dev/dri \
+	-e DISPLAY=unix:0 \
+	--volume=/tmp/.X11-unix:/tmp/.X11-unix:rw \
+	--volume=$(PWD)/.Xauthority:/home/arduino/.Xauthority:ro \
+	-e XAUTHORITY=/home/arduino/.Xauthority \
 	--privileged \
 	-v /var/run/docker.sock:/run/docker.sock \
 	-v $(PWD)/local-preferences:/home/arduino/.arduino \
@@ -86,3 +88,8 @@ SKETCHBOOK:
 
 local-preferences:
 	mkdir local-preferences
+	sudo chown -R 1001:1001 local-preferences
+
+.Xauthority:
+	xauth extract .Xauthority :0
+	sudo chown 1001:1001 .Xauthority

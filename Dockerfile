@@ -26,7 +26,8 @@ cd /usr/local/bin ; \
 ln -s /usr/local/arduino-nightly/arduino
 
 RUN groupadd -r --gid 1001 arduino; useradd --uid 1001 -r -g arduino arduino; \
-mkdir /home/arduino; chown arduino. /home/arduino; \
+gpasswd -a arduino dialout ; \
+mkdir /home/arduino; chown -R arduino. /home/arduino; \
 echo 'arduino ALL=(ALL) NOPASSWD: ALL'>>/etc/sudoers
 USER arduino
 WORKDIR /home/arduino

@@ -8,3 +8,4 @@ MYSQL_PASS
 SKETCHBOOK
 GIT_DATADIR
 local-preferences
+.Xauthority
