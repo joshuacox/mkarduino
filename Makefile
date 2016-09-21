@@ -93,3 +93,5 @@ local-preferences:
 .Xauthority:
 	xauth extract .Xauthority :0
 	sudo chown 1001:1001 .Xauthority
+	sudo chmod 640 .Xauthority
+
