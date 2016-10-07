@@ -41,7 +41,7 @@ rundocker:
 	-v $(PWD)/local-preferences:/home/arduino/.arduino \
 	-v $(shell which docker):/bin/docker \
 	-v $(shell cat GIT_DATADIR):/home/git \
-	-v $(shell cat SKETCHBOOK):/home/arduino/sketchbook \
+	-v $(shell cat SKETCHBOOK):/home/arduino/Arduino \
 	-t $(TAG)
 
 sparevolumes:
