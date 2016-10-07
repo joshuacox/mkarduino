@@ -4,6 +4,7 @@ MAINTAINER Josh Cox <josh 'at' webhosting.coop>
 ENV MKARDUINO 000
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG en_US.UTF-8
+ENV MKARDUINO_UPDATED 20161007
 
 RUN apt-get -qq update; \
 apt-get -qqy dist-upgrade ; \
