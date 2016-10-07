@@ -20,19 +20,19 @@ apt-get clean ; \
 rm -Rf /var/lib/apt/lists/*
 
 RUN cd /usr/local; \
-wget -q http://download.arduino.org/IDE/1.7.11/arduino-1.7.11.org-linux64.tar.xz -O arduino-nightly.tar.xz ;  \
+wget -q https://www.arduino.cc/download.php?f=/arduino-nightly-linux64.tar.xz -O arduino-nightly.tar.xz ;  \
 tar xvf arduino-nightly.tar.xz ; \
 rm arduino-nightly.tar.xz ; \
 cd /usr/local/bin ; \
 rm -f arduino ; \
-ln -s /usr/local/arduino-1.7.11-linux64/arduino
+ln -s /usr/local/arduino-nightly/arduino
 
 
 RUN groupadd -r --gid 1001 arduino; useradd --uid 1001 -r -g arduino arduino; \
 gpasswd -a arduino dialout ; \
+groupadd -g 14 archuucp; gpasswd -a arduino archuucp ; \
 mkdir /home/arduino; chown -R arduino. /home/arduino; \
 echo 'arduino ALL=(ALL) NOPASSWD: ALL'>>/etc/sudoers
-RUN groupadd -g 14 archuucp; gpasswd -a arduino archuucp
 USER arduino
 WORKDIR /home/arduino
 RUN git clone https://github.com/sudar/Arduino-Makefile.git
