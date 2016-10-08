@@ -14,7 +14,7 @@ mkdir /usr/portage
 
 RUN emerge-webrsync
 RUN for d in /etc/portage/package.*; do touch $d/zzz_autounmask; done
-RUN emerge -avq "--ask=n" sun-jre-bin crossdev layman git
+RUN emerge -avq "--ask=n" sun-jre-bin crossdev layman dev-vcs/git
 RUN echo 'source /var/lib/layman/make.conf' >> /etc/portage/make.conf
 RUN USE="-openmp" crossdev -t avr -s4 -S --without-headers
 RUN emerge --autounmask-write arduino; etc-update --automode -5; emerge arduino
