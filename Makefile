@@ -38,7 +38,7 @@ rundocker:
 	-e XAUTHORITY=/home/arduino/.Xauthority \
 	--privileged \
 	-v /var/run/docker.sock:/run/docker.sock \
-	-v $(PWD)/local-preferences:/home/arduino/.arduino \
+	-v $(PWD)/local-preferences:/home/arduino/.arduino15 \
 	-v $(shell which docker):/bin/docker \
 	-v $(shell cat GIT_DATADIR):/home/git \
 	-v $(shell cat SKETCHBOOK):/home/arduino/Arduino \

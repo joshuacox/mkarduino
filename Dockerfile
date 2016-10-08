@@ -28,7 +28,7 @@ rm -f arduino ; \
 ln -s /usr/local/arduino-nightly/arduino
 
 
-RUN groupadd -r --gid 1001 arduino; useradd --uid 1001 -r -g arduino arduino; \
+RUN groupadd -r --gid 1000 arduino; useradd --uid 1000 -r -g arduino arduino; \
 gpasswd -a arduino dialout ; \
 groupadd -g 14 archuucp; gpasswd -a arduino archuucp ; \
 mkdir /home/arduino; chown -R arduino. /home/arduino; \
