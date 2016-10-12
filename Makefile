@@ -91,11 +91,11 @@ SKETCHBOOK:
 
 local-preferences:
 	mkdir local-preferences
-	sudo chown -R 1001:1001 local-preferences
+	sudo chown -R 1000:1000 local-preferences
 
 .Xauthority:
 	xauth extract .Xauthority :0
-	sudo chown 1001:1001 .Xauthority
+	sudo chown 1000:1000 .Xauthority
 	sudo chmod 640 .Xauthority
 
 rmxauth:
