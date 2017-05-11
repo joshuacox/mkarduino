@@ -6,6 +6,16 @@ the community AUR packages , which were giving me issues awhile back
 (usually problems with newer javas being released on arch).  Now that
 it's in docker I have not had an issue since.
 
+### built using dockerhub
+
+If you do not want to build locally checkout the [built
+branch](https://github.com/joshuacox/mkarduino/tree/built)
+
+```
+git checkout built
+```
+
+
 ### Usage
 
 `make` 
