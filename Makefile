@@ -1,6 +1,6 @@
 .PHONY: all help build run builddocker rundocker kill rm-image rm clean enter logs
 
-all: help
+all: clean run
 
 help:
 	@echo ""
@@ -96,7 +96,7 @@ local-preferences:
 .Xauthority:
 	xauth extract .Xauthority :0
 	sudo chown 1000:1000 .Xauthority
-	sudo chmod 640 .Xauthority
+	sudo chmod 0640      .Xauthority
 
 rmxauth:
 	-@rm -f .Xauthority
