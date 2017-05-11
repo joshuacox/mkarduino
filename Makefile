@@ -15,7 +15,7 @@ help:
 build: NAME TAG builddocker
 
 # run a plain container
-run: GIT_DATADIR SKETCHBOOK local-preferences build rm .Xauthority rundocker
+run: NAME TAG UID GIT_DATADIR SKETCHBOOK local-preferences build rm .Xauthority rundocker
 
 echo:
 	echo $(DISPLAY)
@@ -89,14 +89,19 @@ SKETCHBOOK:
 		read -r -p "Enter the destination of the sketchbook directory you wish to associate with this container [SKETCHBOOK]: " SKETCHBOOK; echo "$$SKETCHBOOK">>SKETCHBOOK; cat SKETCHBOOK; \
 	done ;
 
-local-preferences:
+local-preferences: UID
+	$(eval UID := $(shell cat UID))
 	mkdir local-preferences
-	sudo chown -R 1000:1000 local-preferences
+	sudo chown -R ${UID}:${UID} local-preferences
 
-.Xauthority:
+.Xauthority: UID
+	$(eval UID := $(shell cat UID))
 	xauth extract .Xauthority :0
-	sudo chown 1000:1000 .Xauthority
+	sudo chown ${UID}:${UID} .Xauthority
 	sudo chmod 0640      .Xauthority
 
 rmxauth:
 	-@rm -f .Xauthority
+
+UID:
+	id -u > UID
