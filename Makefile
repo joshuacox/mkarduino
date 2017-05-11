@@ -91,7 +91,7 @@ SKETCHBOOK:
 
 local-preferences: UID
 	$(eval UID := $(shell cat UID))
-	mkdir local-preferences
+	mkdir -p local-preferences
 	sudo chown -R ${UID}:${UID} local-preferences
 
 .Xauthority: UID
