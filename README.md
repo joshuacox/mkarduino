@@ -1,9 +1,10 @@
 # mkarduino
 
 This makefile nets you a dockerized arduino application.  I made this as
-the community AUR packages were giving me issues awhile back.  Now that
+I am using Arch Linux with
+the community AUR packages , which were giving me issues awhile back
+(usually problems with newer javas being released on arch).  Now that
 it's in docker I have not had an issue since.
-
 
 ### Usage
 
