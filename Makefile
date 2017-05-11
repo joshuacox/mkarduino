@@ -81,12 +81,12 @@ rmall: rm
 
 GIT_DATADIR:
 	@while [ -z "$$GIT_DATADIR" ]; do \
-		read -r -p "Enter the destination of th eGit data directory you wish to associate with this container [GIT_DATADIR]: " GIT_DATADIR; echo "$$GIT_DATADIR">>GIT_DATADIR; cat GIT_DATADIR; \
+		read -r -p "Enter the destination of the Git data directory you wish to associate with this container [GIT_DATADIR]: " GIT_DATADIR; echo "$$GIT_DATADIR">>GIT_DATADIR; cat GIT_DATADIR; \
 	done ;
 
 SKETCHBOOK:
 	@while [ -z "$$SKETCHBOOK" ]; do \
-		read -r -p "Enter the destination of th esketchbook directory you wish to associate with this container [SKETCHBOOK]: " SKETCHBOOK; echo "$$SKETCHBOOK">>SKETCHBOOK; cat SKETCHBOOK; \
+		read -r -p "Enter the destination of the sketchbook directory you wish to associate with this container [SKETCHBOOK]: " SKETCHBOOK; echo "$$SKETCHBOOK">>SKETCHBOOK; cat SKETCHBOOK; \
 	done ;
 
 local-preferences:
