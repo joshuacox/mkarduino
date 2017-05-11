@@ -1,4 +1,4 @@
-.PHONY: all help build run builddocker rundocker kill rm-image rm clean enter logs
+.PHONY: all help pull build run builddocker rundocker kill rm-image rm clean enter logs
 
 all: clean run
 
@@ -6,19 +6,18 @@ help:
 	@echo ""
 	@echo "-- Help Menu"
 	@echo ""  This is merely a base image for usage read the README file
-	@echo ""   1. make run       - build and run docker container
-	@echo ""   2. make build     - build docker container
+	@echo ""   1. make run       - run docker container
+	@echo ""   2. make pull     -  pull docker container
 	@echo ""   3. make clean     - kill and remove docker container
 	@echo ""   4. make enter     - execute an interactive bash in docker container
 	@echo ""   3. make logs      - follow the logs of docker container
 
-build: NAME TAG builddocker
+pull: NAME TAG
+	$(eval TAG := $(shell cat TAG))
+	docker pull $(TAG)
 
 # run a plain container
-run: NAME TAG UID GIT_DATADIR SKETCHBOOK local-preferences build rm .Xauthority rundocker
-
-echo:
-	echo $(DISPLAY)
+run: NAME TAG UID GIT_DATADIR SKETCHBOOK local-preferences rm .Xauthority rundocker
 
 rundocker:
 	$(eval TMP := $(shell mktemp -d --suffix=DOCKERTMP))
@@ -43,12 +42,6 @@ rundocker:
 	-v $(shell cat GIT_DATADIR):/home/git \
 	-v $(shell cat SKETCHBOOK):/home/arduino/Arduino \
 	-t $(TAG)
-
-sparevolumes:
-
-
-builddocker:
-	/usr/bin/time -v docker build -t `cat TAG` .
 
 kill:
 	-@docker kill `cat cid`
@@ -77,7 +70,7 @@ TAG:
 		read -r -p "Enter the tag you wish to associate with this container [TAG]: " TAG; echo "$$TAG">>TAG; cat TAG; \
 	done ;
 
-rmall: rm 
+rmall: rm
 
 GIT_DATADIR:
 	@while [ -z "$$GIT_DATADIR" ]; do \
